@@ -27,12 +27,10 @@ fetchCountry(inputValue)
             if (country.length < 2) {
                 refs.counrtyCards.innerHTML = renderCountryMurkup(country)
             } else if (country.length >= 2 && country.length <= 10) {
-                refs.counrtyCards.innerHTML = renderCountryListMarkup(country);
-                console.log(country.length);
+                refs.counrtyCards.innerHTML = renderCountryListMarkup(country);             
             } else if (country.length > 10) {
                 refs.counrtyCards.innerHTML = '';
                 Notify.info("Too many matches found. Please enter a more specific name.");
-                console.log(country.length);
             }     
         })
     .catch(() => {
