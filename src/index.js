@@ -20,7 +20,6 @@ function onSearch(event) {
 
     if (inputValue === '') {
         refs.counrtyCards.innerHTML = '';
-        
     } 
     
 fetchCountry(inputValue)
@@ -30,16 +29,15 @@ fetchCountry(inputValue)
             } else if (country.length >= 2 && country.length <= 10) {
                 refs.counrtyCards.innerHTML = renderCountryListMarkup(country);
                 console.log(country.length);
-            } else if (country.length > 10){
+            } else if (country.length > 10) {
+                refs.counrtyCards.innerHTML = '';
                 Notify.info("Too many matches found. Please enter a more specific name.");
                 console.log(country.length);
             }     
         })
     .catch(() => {
-        Notify.failure('Oops, there is no country with that name');
         refs.counrtyCards.innerHTML = '';
-        // input.reset();
-        
+            Notify.failure('Oops, there is no country with that name');
         });
 }
 
