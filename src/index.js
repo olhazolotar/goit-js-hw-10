@@ -35,7 +35,8 @@ fetchCountry(inputValue)
                 console.log(country.length);
             }     
         })
-        .catch(() => {
+    .catch(() => {
+        refs.counrtyCards.innerHTML = '';
             Notify.failure('Oops, there is no country with that name');
         });
 }
