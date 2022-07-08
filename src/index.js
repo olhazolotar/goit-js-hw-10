@@ -1,4 +1,9 @@
 import './css/styles.css';
+import { fetchCountry } from './js/fetchCountries';
+import debounce from 'lodash.debounce';
+import { renderCountryMurkup } from './js/renderCountryMurkup';
+import { renderCountryListMarkup } from './js/renderCountryListMarkup';
+
 
 const refs = {
     counrtyCards: document.querySelector('.country-list'),
@@ -7,44 +12,60 @@ const refs = {
 
 const DEBOUNCE_DELAY = 300;
 
-refs.input.addEventListener('input', onInput)
+refs.input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
-function fetchCountry(countryName) {
-    return fetch(`https://restcountries.com/v3.1/name/${countryName}?fields=name,capital,population,flags,languages`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(response.status)
-            }
-            return response.json();
-        }); 
-}   
+function onSearch(event) {
+    let inputValue = event.target.value.trim();
 
-function renderCountryList(countryies) {
-    for (const country of countryies) {
-        const { name: official, capital, population, flags: svg, languages } = country;
-
-        const langua = Object.values(languages).join(', ');
+    if (inputValue === '') {
+        refs.counrtyCards.innerHTML = '';
         
-    const murkup = `<li>
-<img src="${country.flags.svg}" alt="${country.name.official}" width="50">
-<span> ${country.name.official} </span>
-</li>
-<li>Capital: ${capital}  </li>
-<li>Population:  ${population} </li>
-<li>Languages: ${langua} </li>`;
-        
-    refs.counrtyCards.innerHTML = murkup;
-    }    
-}
-
-function onInput() {
+    } 
     
-    fetchCountry(peru)
-    .then(renderCountryList)
-    .catch(error => {
-        console.log(error);
-    });
+    fetchCountry(inputValue)
+        .then(country => {
+            if (country.length < 2) {
+                refs.counrtyCards.innerHTML = renderCountryMurkup(country)
+                console.log(country.length);
+            } else if (country.length > 2 & country.length < 10) {
+                refs.counrtyCards.innerHTML = renderCountryListMarkup(country)
+                console.log(country.length);
+            } console.log("Too many matches found. Please enter a more specific name.");
+
+
+
+
+
+            
+        })
+        .catch();
+    
+    
+    
+    
+    
+    
+
+    // fetchCountry(inputValue)
+    //     .then(country => {
+    //         if (country.length > 10) {
+    //             console.log(little);
+    //         } else if (countryies.length > 2 & countryies.length < 10) {
+    //             renderCountryMurkup();
+    //         } else {
+    //             renderCountryListMarkup();
+    //         }
+    //     })
+    //     .catch(error => { error })
+    //     .finally(() => {
+        
+    //     });
 }
+
+    
+
+    
+       
 
 
    
