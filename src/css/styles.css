@@ -20,6 +20,10 @@ body {
   margin-bottom: 16px;
 }
 
+li{
+  padding-bottom: 10px;
+}
+
 .country-list__item {
   display: flex;
   align-items: center;
