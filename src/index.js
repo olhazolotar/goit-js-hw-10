@@ -18,9 +18,10 @@ refs.input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 function onSearch(event) {
     let inputValue = event.target.value.trim();
 
-    if (inputValue === '') {
+    if (inputValue === '' || inputValue === " ") {
         refs.counrtyCards.innerHTML = '';
-    } 
+        return Notify.warning('Search query is empty!');
+    }
     
 fetchCountry(inputValue)
         .then(country => {
